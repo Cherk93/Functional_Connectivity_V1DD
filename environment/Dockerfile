@@ -1,4 +1,4 @@
-# hash:sha256:3f51ab12adbddc2000a27f00953d5c9a683ead52e34b32274a3ec8951975d528
+# hash:sha256:d530de2572cf5ce858ab4e7dc1582a15217f8dce7d9f519546d00de17ec175bd
 ARG REGISTRY_HOST
 FROM $REGISTRY_HOST/codeocean/mambaforge3:23.1.0-4-python3.10.12-ubuntu22.04
 
@@ -13,7 +13,7 @@ RUN pip install -U --no-cache-dir \
     matplotlib \
     numpy \
     nwbwidgets==0.11.3 \
-    packagin==23.1 \
+    packaging==23.1 \
     pandas \
     pynwb==3.0.0 \
     scikit-learn \
