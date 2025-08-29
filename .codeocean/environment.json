@@ -10,7 +10,8 @@
 		"pip": {
 			"packages": [
 				{
-					"name": "caveclient"
+					"name": "caveclient",
+					"version": "6.5.0"
 				},
 				{
 					"name": "hdmf",
@@ -21,10 +22,12 @@
 					"version": "0.11.3"
 				},
 				{
-					"name": "matplotlib"
+					"name": "matplotlib",
+					"version": "3.10.5"
 				},
 				{
-					"name": "numpy"
+					"name": "numpy",
+					"version": "1.26.4"
 				},
 				{
 					"name": "nwbwidgets",
@@ -35,20 +38,24 @@
 					"version": "23.1"
 				},
 				{
-					"name": "pandas"
+					"name": "pandas",
+					"version": "2.3.2"
 				},
 				{
 					"name": "pynwb",
 					"version": "3.0.0"
 				},
 				{
-					"name": "scikit-learn"
+					"name": "scikit-learn",
+					"version": "1.7.1"
 				},
 				{
-					"name": "scipy"
+					"name": "scipy",
+					"version": "1.15.3"
 				},
 				{
-					"name": "seaborn"
+					"name": "seaborn",
+					"version": "0.13.2"
 				}
 			],
 			"options": {},
