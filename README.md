@@ -1,4 +1,4 @@
-# SWDB 2025 Project on understadning underlying functional-structural connectivity using the Allen Insititute V1 Deep dive dataset:
+# SWDB 2025 Project on understadning underlying functional-structural connectivity using the Allen Institute V1 Deep dive dataset:
 
 # Funcky Ensemble
 
