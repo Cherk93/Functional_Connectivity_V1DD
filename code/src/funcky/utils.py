@@ -53,19 +53,12 @@ def get_aligned_session_data(nwb, remove_known_bad_planes=True):
 
     Parameters
     ----------
-    volume : int.
-        Imaging volume (depth), 1 = top volume, 5 = bottom volume..
+    nwb : NWB file object
+        File object for a session of data.
 
     remove_known_bad_planes : bool.
         Remove plane 6 of (column 1, volume 5).
         Default: True.
-
-    column : int.
-        Imaging column. 1 = center, 2-5 = surround.
-        Default: 1, center column.
-
-    subject_id : int
-        Default: 409828, i.e. the Golden Mouse
 
     Returns
     -------
