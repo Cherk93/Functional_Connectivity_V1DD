@@ -90,11 +90,15 @@ def get_aligned_session_data(nwb, remove_known_bad_planes=True):
 
     """
     plane_ids = range(6)
+
+    # [nit] this seems like a pretty brittle way to extract column and volume data
+    # but not sure how else to get this info from the nwb
+    desc = nwb.experiment_description
+    column = int(str.split(desc, ' ')[-3][0])  # ignore comma attached to column index
+    volume = int(str.split(desc, ' ')[-1])
     if remove_known_bad_planes:
-        warnings.warn("Ignoring `remove_known_bad_planes`; not removing column 1, volume 5, plane 6)")
-        # Can't remember how to recover column and volume data from NWB
-        # if column == 1 and volume == 5:
-        #     plane_ids = range(5)
+        if column == 1 and volume == 5:
+            plane_ids = range(5)
     
     # Use plane-0 timestamps as reference timestamps
     refr_timestamps = nwb.processing['plane-0'].data_interfaces['dff'].timestamps[:]
