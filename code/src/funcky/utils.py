@@ -187,3 +187,43 @@ def get_aligned_session_data(nwb, remove_known_bad_planes=True):
         "behavior_traces": all_behavior_traces,
         "behavior_names": all_behavior_names,
     }
+
+
+def get_epoch_data(session_data, start_time, stop_time):
+    """Return session data for a specific epoch of time, [start_time, stop_time).
+
+    Parameters
+    ----------
+    session_data : dict, including
+        - `timestamps` : ndarray, shape (T,)
+        - `*_traces` : ndarray, shape (T,...)
+
+    start_time : float
+    stop_time : float
+        Start and stop times to filter data by.
+    
+    Returns
+    -------
+    epoch_data : dict.
+        Same members as `session_data`, but time-varying values are filtered as follows:
+            - `timestamps` : list of ndarrays, each with shape (t_i,)
+            - `*_traces` : list of ndarray, each with shape (..., t_i)
+        where `t_i` is the number of timestamps between `start_times[i]` and `stop_times[i]`
+        
+        Non-time-varying key-value pairs in `session_data` are copied as is.
+
+    """
+    
+    timestamps = session_data['timestamps']
+    mask = (timestamps >= start_time) & (timestamps <= stop_time)
+
+    epoch_data = {}
+    for k, v in session_data.items():
+        # if time-varying, filter/mask
+        # an alternative identify by where len(v) == T
+        if (k=='timestamps') or ('_traces' in k):
+            epoch_data[k] = v[mask]
+        else:
+            epoch_data[k] = v
+
+    return epoch_data
