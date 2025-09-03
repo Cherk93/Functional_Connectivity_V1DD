@@ -227,3 +227,74 @@ def get_epoch_data(session_data, start_time, stop_time):
             epoch_data[k] = v
 
     return epoch_data
+
+
+def bin_and_avg(arr, timestamps, window_size, window_overlap=0.):
+    """Sliding window average of data, based on timestamps.
+
+    Parameters
+    ----------
+    arr : np.ndarray, shape (T,).
+        Array to bin and average.
+
+    timestamps : np.ndarray, shape (T,)
+        Timestamps to calculate bins.
+
+    window_size : float.
+        Window size, in same units as timestamps.
+
+    window_overlap : float, default=0.
+        Window overlap, in same units as `timestamps`.
+        Default : 0, no overlap.
+
+    Returns
+    -------
+    binned_arr : np.ndarray, shape (T_bins,...).
+        Arrays with values binned and averaged.
+
+    bin_starts : np.ndarray, shape (T_bins,).
+        Array of timestamps associated with bin starts.
+
+    """
+
+    T = len(timestamps)
+    if len(arr) != T:
+        raise ValueError(
+            f"Expect arrays to have length {T}, but got shape={arr.shape}."
+        )
+
+    # Calculate bin start times
+    step_size = window_size - window_overlap
+    bin_starts = np.arange(timestamps[0], timestamps[-1] - window_size + step_size, step_size)
+    bin_ends = bin_starts + window_size
+    
+    binned_arr = np.zeros((len(bin_starts),) + arr.shape[1:])
+    for i_bin, (start, end) in enumerate(zip(bin_starts, bin_ends)):
+        # Find indices of timestamps within the current bin
+        mask = (timestamps >= start) & (timestamps <= end)
+
+        if mask.sum() > 0:  # Calculate the mean of the array within the current bin
+            binned_arr[i_bin] = arr[mask].mean(axis=0)
+        
+        else: # Else, empty bin
+            binned_arr[i_bin] = np.nan
+
+    return binned_arr, bin_starts
+
+def bin_and_avg_data(session_data, window_size, window_overlap=0.):
+    """Helper function for applying `bin_and_avg` to session data dictionary."""
+
+    binned_dd = {}
+    for k, v in dd.items():
+        if (k=='timestamps'):  # we'll handle timestamps at the end
+            continue
+        elif '_traces' in k:       # apply binning
+            binned_v, binned_ts = bin_and_avg(v, dd['timestamps'], window_size, window_overlap)
+            binned_dd[k] = binned_v
+        else:  # else, do nothing
+            binned_dd[k] = v
+    
+    # addd binned_ts
+    binned_dd['timestamps'] = binned_ts
+
+    return binned_dd
