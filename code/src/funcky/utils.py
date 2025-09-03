@@ -63,22 +63,28 @@ def get_aligned_session_data(nwb, remove_known_bad_planes=True):
     Returns
     -------
     dict of np.ndarray, consisting of:
-        timestamps : shape (n_timestamps,)
+        timestamps : np.ndarray, shape (n_timestamps,)
             Timestamps that all `*_traces` are aligned to.
 
-        dff_traces : shape (n_cells, n_timestamps)
+        dff_traces : np.ndarray, shape (n_timestamps, n_total_cells,)
             dF/F traces for all valid neurons across all planes, aligned to `timestamps`
 
-        plane_ids : shape (n_cells,)
-            Unique ID of plane of cell, ranges from 1-6
-
-        roi_ids
+        roi_ids : np.ndarray, shape (n_total_cells,).
             Unique ID of cell, for the given plane
+        
+        plane_ids : np.ndarray, shape (n_total_cells,)
+            Unique plane ID of cell, in ranges [0,6).
 
-        behavior_traces : shape (n_behaviors, n_timestamps)
+        volume_ids : np.ndarray, shape (n_total_cells,)
+            Unique volume ID of cell, ranges from [1,7).
+
+        column_ids : np.ndarray, shape (n_total_cells,)
+            Unique column ID of cell, ranges from [1,6).
+
+        behavior_traces : np.ndarray, shape (n_timestamps, n_behaviors)
             Raw / unprocessed behavioral variable traces
         
-        behavior_names : shape (n_behaviors,)
+        behavior_names : np.ndarray, shape (n_behaviors,)
             List of behavioral variable names
 
     """
@@ -122,9 +128,11 @@ def get_aligned_session_data(nwb, remove_known_bad_planes=True):
         all_roi_ids.extend(good_rois)
         all_plane_ids.extend([plane_id] * len(good_rois))
         
-    all_dff_traces = np.array(all_dff_traces)               # (n_total_cells, n_timestamps)
-    all_plane_ids = np.array(all_plane_ids, dtype=int)      # (n_total_cells,)
-    all_roi_ids = np.array(all_roi_ids, dtype=int)          # (n_total_cells,)
+    all_dff_traces = np.array(all_dff_traces).T                       # (n_timestamps, n_total_cells)
+    all_roi_ids = np.array(all_roi_ids, dtype=int)                    # (n_total_cells,)
+    all_plane_ids = np.array(all_plane_ids, dtype=int)                # (n_total_cells,)
+    all_volume_ids = np.ones(len(all_plane_ids), dtype=int) * volume  # (n_total_cells,)
+    all_column_ids = np.ones(len(all_plane_ids), dtype=int) * column  # (n_total_cells,)
     
     # ------------------------------------------------------------------------------------
     # Load behavioral data
@@ -167,13 +175,15 @@ def get_aligned_session_data(nwb, remove_known_bad_planes=True):
         all_behavior_traces.append(behavior_traces)
 
     all_behavior_names = np.array(all_behavior_names)    # shape (n_behaviors,)
-    all_behavior_traces = np.array(all_behavior_traces)  # shape (n_behaviors, n_timestemps)
+    all_behavior_traces = np.stack(all_behavior_traces, axis=-1)  # shape (n_timestamps, n_behaviors)
 
     return {
         "timestamps": refr_timestamps,
         "dff_traces": all_dff_traces,
-        "plane_ids": all_plane_ids,
         "roi_ids": all_roi_ids,
+        "plane_ids": all_plane_ids,
+        "volume_ids": all_volume_ids,
+        "column_ids": all_column_ids,
         "behavior_traces": all_behavior_traces,
         "behavior_names": all_behavior_names,
     }
