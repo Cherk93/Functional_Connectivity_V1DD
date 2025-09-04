@@ -111,6 +111,7 @@ def draw_label_arc(ax, row_label, col_label):
 
 
 class AxisGrid:
+
     def __init__(
         self,
         ax,
@@ -256,29 +257,29 @@ def add_position_column(nodes, pos_key="position"):
 
 
 def adjacencyplot(
-    adjacency: Union[np.ndarray, csr_array, pd.DataFrame],
-    nodes: pd.DataFrame = None,
-    plot_type: Literal["heatmap", "scattermap"] = "heatmap",
-    groupby: Optional[list[str]] = None,
-    sortby: Optional[list[str]] = None,
-    group_element: Literal["box", "bracket"] = "box",
-    group_axis_size: str = "1%",
-    node_palette: Optional[dict] = None,
-    edge_palette: Optional[Union[str, dict, Callable]] = "Greys",
-    ax: Optional[plt.Axes] = None,
-    figsize: tuple = (8, 8),
-    edge_size: bool = True,
-    edge_hue: bool = True,
-    hue_norm: Optional[tuple] = None,
-    sizes: tuple = (1, 10),
-    edge_linewidth: float = 0.05,
-    label_fontsize: Union[float, int, str] = "medium",
-    title_fontsize: Union[float, int, str] = "large",
-    title: Optional[str] = None,
-    xlabel: Optional[str] = None,
-    ylabel: Optional[str] = None,
-    arc_labels: Optional[tuple] = ("Pre", "Post"),
-    **kwargs,
+        adjacency: Union[np.ndarray, csr_array, pd.DataFrame],
+        nodes: pd.DataFrame = None,
+        plot_type: Literal["heatmap", "scattermap"] = "heatmap",
+        groupby: Optional[list[str]] = None,
+        sortby: Optional[list[str]] = None,
+        group_element: Literal["box", "bracket"] = "box",
+        group_axis_size: str = "1%",
+        node_palette: Optional[dict] = None,
+        edge_palette: Optional[Union[str, dict, Callable]] = "Greys",
+        ax: Optional[plt.Axes] = None,
+        figsize: tuple = (8, 8),
+        edge_size: bool = True,
+        edge_hue: bool = True,
+        hue_norm: Optional[tuple] = None,
+        sizes: tuple = (1, 10),
+        edge_linewidth: float = 0.05,
+        label_fontsize: Union[float, int, str] = "medium",
+        title_fontsize: Union[float, int, str] = "large",
+        title: Optional[str] = None,
+        xlabel: Optional[str] = None,
+        ylabel: Optional[str] = None,
+        arc_labels: Optional[tuple] = ("Pre", "Post"),
+        **kwargs,
 ):
     """
     Plot an adjacency matrix with optional grouping and sorting specified by node data.
@@ -412,7 +413,10 @@ def adjacencyplot(
             vmax=hue_norm[1] if hue_norm else None,
             ax=ax,
             square=True,
-            cbar_kws={"label": "Synapse count", "shrink": 0.5},
+            cbar_kws={
+                "label": "Synapse count",
+                "shrink": 0.5
+            },
             cmap=edge_palette,
             **kwargs,
         )
@@ -453,55 +457,72 @@ def adjacencyplot(
 
     # add groupby indicators starting from last to first
     for i, level in enumerate(groupby[::-1]):
-        cax_left = grid.append_axes(
-            "left", size=group_axis_size, pad="auto", zorder=len(sort_by) - i
-        )
-        cax_top = grid.append_axes(
-            "top", size=group_axis_size, pad="auto", zorder=len(sort_by) - i
-        )
+        cax_left = grid.append_axes("left",
+                                    size=group_axis_size,
+                                    pad="auto",
+                                    zorder=len(sort_by) - i)
+        cax_top = grid.append_axes("top",
+                                   size=group_axis_size,
+                                   pad="auto",
+                                   zorder=len(sort_by) - i)
         if group_element == "bracket":
-            cax_left.spines[["top", "bottom", "left", "right"]].set_visible(False)
-            cax_top.spines[["top", "bottom", "left", "right"]].set_visible(False)
+            cax_left.spines[["top", "bottom", "left",
+                             "right"]].set_visible(False)
+            cax_top.spines[["top", "bottom", "left",
+                            "right"]].set_visible(False)
 
         # means = nodes.groupby(level)[pos_key].mean().rename("mean")
         # starts = nodes.groupby(level)[pos_key].min().rename("start")
         # ends = nodes.groupby(level)[pos_key].max().rename("end")
 
-        means = (
-            nodes.groupby(groupby[: len(groupby) - i])[pos_key]
-            .mean()
-            .rename("mean")
-            .droplevel(groupby[: len(groupby) - i - 1])
-        )
-        starts = (
-            nodes.groupby(groupby[: len(groupby) - i])[pos_key]
-            .min()
-            .rename("start")
-            .droplevel(groupby[: len(groupby) - i - 1])
-        )
-        ends = (
-            nodes.groupby(groupby[: len(groupby) - i])[pos_key]
-            .max()
-            .rename("end")
-            .droplevel(groupby[: len(groupby) - i - 1])
-        )
+        means = (nodes.groupby(
+            groupby[:len(groupby) -
+                    i])[pos_key].mean().rename("mean").droplevel(
+                        groupby[:len(groupby) - i - 1]))
+        starts = (nodes.groupby(
+            groupby[:len(groupby) -
+                    i])[pos_key].min().rename("start").droplevel(
+                        groupby[:len(groupby) - i - 1]))
+        ends = (nodes.groupby(
+            groupby[:len(groupby) - i])[pos_key].max().rename("end").droplevel(
+                groupby[:len(groupby) - i - 1]))
         info = pd.concat([starts, ends], axis=1)
 
         for group_name, (start, end) in info.iterrows():
             if group_element == "box":
-                draw_box(cax_left, start + 0.5, end, axis="y", color=node_palette[group_name])
-                draw_box(cax_top, start + 0.5, end, axis="x", color=node_palette[group_name])
+                draw_box(cax_left,
+                         start + 0.5,
+                         end,
+                         axis="y",
+                         color=node_palette[group_name])
+                draw_box(cax_top,
+                         start + 0.5,
+                         end,
+                         axis="x",
+                         color=node_palette[group_name])
 
             elif group_element == "bracket":
-                draw_bracket(
-                    cax_left, start, end, axis="y", color=node_palette[group_name]
-                )
-                draw_bracket(
-                    cax_top, start, end, axis="x", color=node_palette[group_name]
-                )
+                draw_bracket(cax_left,
+                             start,
+                             end,
+                             axis="y",
+                             color=node_palette[group_name])
+                draw_bracket(cax_top,
+                             start,
+                             end,
+                             axis="x",
+                             color=node_palette[group_name])
 
-            ax.axhline(start, lw=0.5, alpha=0.5, color="black", zorder=line_zorder)
-            ax.axvline(start, lw=0.5, alpha=0.5, color="black", zorder=line_zorder)
+            ax.axhline(start,
+                       lw=0.5,
+                       alpha=0.5,
+                       color="black",
+                       zorder=line_zorder)
+            ax.axvline(start,
+                       lw=0.5,
+                       alpha=0.5,
+                       color="black",
+                       zorder=line_zorder)
 
             if end == (len(nodes) - 1):
                 ax.axhline(
@@ -522,15 +543,21 @@ def adjacencyplot(
                 )
 
         cax_left.set_yticks(means.values)
-        ticklabels = cax_left.set_yticklabels(means.index, rotation=0, fontsize=8)
+        ticklabels = cax_left.set_yticklabels(means.index,
+                                              rotation=0,
+                                              fontsize=8)
         for label, color in zip(ticklabels, means.index.map(node_palette)):
             label.set_color(color)
 
         cax_top.set_xticks(means.values)
-        cax_top.tick_params(top=True, labeltop=True, bottom=False, labelbottom=False)
-        ticklabels = cax_top.set_xticklabels(
-            means.index, rotation=45, fontsize=label_fontsize, ha="left"
-        )
+        cax_top.tick_params(top=True,
+                            labeltop=True,
+                            bottom=False,
+                            labelbottom=False)
+        ticklabels = cax_top.set_xticklabels(means.index,
+                                             rotation=45,
+                                             fontsize=label_fontsize,
+                                             ha="left")
         for label, color in zip(ticklabels, means.index.map(node_palette)):
             label.set_color(color)
             label.set_in_layout(True)
@@ -585,8 +612,8 @@ cell_type_palette = {
 
 
 def check_index(
-    index: Union[pd.Index, pd.DataFrame, pd.Series, np.ndarray, list],
-) -> pd.Index:
+    index: Union[pd.Index, pd.DataFrame, pd.Series, np.ndarray,
+                 list],) -> pd.Index:
     if isinstance(index, (pd.DataFrame, pd.Series)):
         index = index.index
     elif isinstance(index, (np.ndarray, list)):
@@ -598,9 +625,9 @@ def check_index(
     return index
 
 
-def filter_synapse_table(
-    synapse_table: pd.DataFrame, pre_root_ids=None, post_root_ids=None
-):
+def filter_synapse_table(synapse_table: pd.DataFrame,
+                         pre_root_ids=None,
+                         post_root_ids=None):
     """Filter synapse table by pre and post root ids.
 
     Args:
@@ -613,19 +640,101 @@ def filter_synapse_table(
     """
 
     if pre_root_ids is not None:
-        assert isinstance(pre_root_ids, (np.ndarray, list, pd.core.series.Series)), (
-            f"IDs have to be of type np.ndarray, list or pd.Series; got {type(pre_root_ids)}"
-        )
+        assert isinstance(
+            pre_root_ids, (np.ndarray, list, pd.core.series.Series)
+        ), (f"IDs have to be of type np.ndarray, list or pd.Series; got {type(pre_root_ids)}"
+           )
         pre_mask = np.isin(synapse_table["pre_pt_root_id"], pre_root_ids)
     else:
         pre_mask = np.ones(len(synapse_table), dtype=bool)
 
     if post_root_ids is not None:
-        assert isinstance(post_root_ids, (np.ndarray, list, pd.core.series.Series)), (
-            f"IDs have to be of type np.ndarray, list or pd.Series; got {type(pre_root_ids)}"
-        )
+        assert isinstance(
+            post_root_ids, (np.ndarray, list, pd.core.series.Series)
+        ), (f"IDs have to be of type np.ndarray, list or pd.Series; got {type(pre_root_ids)}"
+           )
         post_mask = np.isin(synapse_table["post_pt_root_id"], post_root_ids)
     else:
         post_mask = np.ones(len(synapse_table), dtype=bool)
 
     return synapse_table[pre_mask & post_mask]
+
+
+def add_distance_columns(df: pd.DataFrame, distance_type: str | list[str],
+                         use_transform: bool):
+    """
+    Add distance columns to a DataFrame containing cell pairs.
+    
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing cell pairs with pre_ and post_ position columns
+    distance_type : str or list of str, default "3d"
+        Type(s) of distance to calculate. Options: "lateral", "vertical", "3d"
+        
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with added distance columns
+    """
+    # Normalize distance_type to list
+    if isinstance(distance_type, str):
+        distance_type = [distance_type]
+
+    string = "_trform" if use_transform else ""
+    # Define column mappings for different distance types
+    distance_column_map = {
+        "lateral": [
+            f"pt_position{string}_x",
+            f"pt_position{string}_z",
+        ],
+        "vertical": [f"pt_position{string}_y"],
+        "3d": [
+            f"pt_position{string}_x",
+            f"pt_position{string}_y",
+            f"pt_position{string}_z",
+        ]
+    }
+
+    # Validate distance types
+    invalid_types = set(distance_type) - set(distance_column_map.keys())
+    if invalid_types:
+        raise ValueError(f"Unknown distance type(s): {invalid_types}. "
+                         f"Valid options: {list(distance_column_map.keys())}")
+
+    # Make a copy to avoid modifying the original DataFrame
+    result_df = df.copy()
+
+    # Calculate distances for each type
+    for dist_type in distance_type:
+        dist_columns = distance_column_map[dist_type]
+
+        # Get pre and post position columns
+        pre_columns = [f"pre_{col}" for col in dist_columns]
+        post_columns = [f"post_{col}" for col in dist_columns]
+
+        # Calculate distance row by row
+        pre_positions = result_df[pre_columns].values
+        post_positions = result_df[post_columns].values
+
+        # Calculate Euclidean distance for each row
+        distances = np.sqrt(np.sum((pre_positions - post_positions)**2, axis=1))
+
+        # Add distance column
+        result_df[f'distance_{dist_type}'] = distances
+
+    return result_df
+
+
+def create_pairs_df(df):
+
+    # Do a cartesian product (self-merge on nothing)
+    df_pre = df.add_prefix("pre_")
+    df_post = df.add_prefix("post_")
+    df_pairs = df_pre.merge(df_post, how="cross")
+
+    # Remove self-pairs
+    df_pairs = df_pairs[df_pairs["pre_id"] != df_pairs["post_id"]].reset_index(
+        drop=True)
+
+    return df_pairs
