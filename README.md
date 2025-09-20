@@ -1,4 +1,4 @@
-# SWDB 2025 Project on understadning underlying functional-structural connectivity using the Allen Institute V1 Deep dive dataset:
+# SWDB 2025 Project to understand underlying functional-structural connectivity using the Allen Institute V1 Deep dive dataset:
 
 <img align = right height="200" src="https://github.com/user-attachments/assets/d0ff038e-8d39-4cd7-8141-6b4260c6a968" />
 
