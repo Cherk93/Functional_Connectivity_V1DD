@@ -12,3 +12,9 @@ Description: We study the relationship between function and structure in  the V1
 
 Dataset Used: V1 Deep Dive (V1DD). Single cell activity measured across a cubic millimeter of the mouse visual cortex while the animal is headfixed and exposed to a variety of visual cues including gratings, low sparse noise , natural images and movies. 
 
+# Population coupling analysis to identify functional classes in calcium dataset
+
+Run the following script to generate the plots show below : 
+
+<a href ./code/scripts/2025-09-03-p_coupling_AC.py>
+
