@@ -27,11 +27,10 @@ This notebook performs population coupling analysis to identify "choristers" (ce
 
 Distribution of population coupling values across all cells, showing the separation between choristers and soloists.
 
-### Correlation Heatmaps
-![Sorted Heatmap](./images/sorted_heatmap.png)
+### Heatmap showing cell cell correlation for chositers and soloists 
+![CS Heatmap](./images/sorted_cs_heatmap.png)
 
-Sorted correlation matrix showing clear block structure when cells are organized by their population coupling strength.
-
+### Sorted Vs unsorted by population coupling strength
 ![Sorted vs Unsorted](./images/sorted_vs_unsorted.png)
 
 Comparison of correlation matrices before and after sorting by population coupling.
@@ -45,15 +44,14 @@ Principal component analysis showing the dimensionality of neural population act
 
 Eigenspectrum analysis revealing the effective dimensionality of the neural population.
 
-### PCA analysis of cells from different classes
+### PCA and eigen spectrum analysis of cells from different classes
 ![Chorister PCA](./images/chorister_PCA.png)
+![Chorister Eingen](./images/chorister_ES.png)
+
 ![Soloist PCA](./images/soloists_PCA.png)
+![Soloist_PCA](./images/chorister_ES.png)
 
 PCA analysis separately for chorister and soloist populations.
-
-### Heatmap showing cell cell correlation for chositers and soloists 
-
-![CS Heatmap](./images/sorted_cs_heatmap.png)
 
 ![Mean Activity vs Population Coupling](./images/meanactivity_vs_pcoupling.png)
 
