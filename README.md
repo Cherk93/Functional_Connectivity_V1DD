@@ -51,6 +51,10 @@ Eigenspectrum analysis revealing the effective dimensionality of the neural popu
 
 PCA analysis separately for chorister and soloist populations.
 
+### Heatmap showing cell cell correlation for chositers and soloists 
+
+![CS Heatmap](./images/sorted_cs_heatmap.png)
+
 ![Mean Activity vs Population Coupling](./images/meanactivity_vs_pcoupling.png)
 
 Relationship between mean neural activity and population coupling strength.
