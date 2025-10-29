@@ -49,9 +49,12 @@ Eigenspectrum analysis revealing the effective dimensionality of the neural popu
 ![Chorister Eingen](./images/chorister_ES.png)
 
 ![Soloist PCA](./images/soloists_PCA.png)
-![Soloist_PCA](./images/chorister_ES.png)
+![Soloist_PCA](./images/soloists_ES.png)
 
 PCA analysis separately for chorister and soloist populations.
+
+### Linear regression analysis for population coupling strength across epochs
+![Linear Regression](./images/linear_reg.png)
 
 ![Mean Activity vs Population Coupling](./images/meanactivity_vs_pcoupling.png)
 
