@@ -14,7 +14,67 @@ Dataset Used: V1 Deep Dive (V1DD). Single cell activity measured across a cubic 
 
 # Population coupling analysis to identify functional classes in calcium dataset
 
-Run the following script to generate the plots show below : 
+Run the following notebook to generate the population coupling analysis plots:
 
-<a href ./code/scripts/2025-09-03-p_coupling_AC.py>
+**Main Analysis Notebook:** [code/scripts/2025-09-03-p_coupling_AC.ipynb](./code/scripts/2025-09-03-p_coupling_AC.ipynb)
+
+This notebook performs population coupling analysis to identify "choristers" (cells highly coupled to population activity) vs "soloists" (cells with independent activity patterns).
+
+## Key Results
+
+### Population Coupling Distribution
+![Population Coupling](./images/population_coupling.png)
+
+Distribution of population coupling values across all cells, showing the separation between choristers and soloists.
+
+### Correlation Heatmaps
+![Sorted Heatmap](./images/sorted_heatmap.png)
+
+Sorted correlation matrix showing clear block structure when cells are organized by their population coupling strength.
+
+![Sorted vs Unsorted](./images/sorted_vs_unsorted.png)
+
+Comparison of correlation matrices before and after sorting by population coupling.
+
+### PCA and Eigenspectrum Analysis
+![PCA Analysis](./images/PCA.png)
+
+Principal component analysis showing the dimensionality of neural population activity.
+
+![Eigenspectrum](./images/eigen.png)
+
+Eigenspectrum analysis revealing the effective dimensionality of the neural population.
+
+### Cell Class Comparisons
+![Chorister PCA](./images/chorister_PCA.png)
+![Soloist PCA](./images/soloists_PCA.png)
+
+PCA analysis separately for chorister and soloist populations.
+
+![Mean Activity vs Population Coupling](./images/meanactivity_vs_pcoupling.png)
+
+Relationship between mean neural activity and population coupling strength.
+
+### Stimulus-Specific Responses
+![DFF Traces](./images/DFF_traces_all_epochs.png)
+
+ΔF/F traces across different stimulus epochs (drifting gratings, natural movies, spontaneous activity).
+
+![Average DFF](./images/average_dff_across_stimulus.png)
+
+Average ΔF/F responses across different stimulus conditions.
+
+# Additional Analyses
+
+## Chorister vs Soloist Structural Analysis
+
+**Notebook:** [scripts/choroist_vs_soloists.ipynb](./scripts/choroist_vs_soloists.ipynb)
+
+This notebook examines the structural connectivity patterns underlying functional differences between choristers and soloists, including distance analysis and logistic regression modeling.
+
+## Null Models for Structural Connectivity
+
+**Notebook:** [scripts/null_models_structural.ipynb](./scripts/null_models_structural.ipynb)
+
+Statistical validation using null models to assess the significance of observed structural connectivity patterns.
 
