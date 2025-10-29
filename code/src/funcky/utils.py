@@ -285,13 +285,11 @@ def bin_and_avg_data(session_data, window_size, window_overlap=0.):
     """Helper function for applying `bin_and_avg` to session data dictionary."""
 
     binned_dd = {}
-    for k, v in session_data.items():
+    for k, v in dd.items():
         if (k=='timestamps'):  # we'll handle timestamps at the end
             continue
         elif '_traces' in k:       # apply binning
-            binned_v, binned_ts = bin_and_avg(
-                v, session_data['timestamps'], window_size, window_overlap
-            )
+            binned_v, binned_ts = bin_and_avg(v, dd['timestamps'], window_size, window_overlap)
             binned_dd[k] = binned_v
         else:  # else, do nothing
             binned_dd[k] = v
