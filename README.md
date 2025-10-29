@@ -6,8 +6,8 @@
 
 Members:
 
-- Libby Zhang
 - Arun Cherkkil
+- Libby Zhang
 - Rodrigo Gonzalez Laiz
 
 Description: We study the relationship between function and structure in the V1DD dataset by examining how cell ensembles differ across conditions and what structural motifs or correlates underlie their organization.
