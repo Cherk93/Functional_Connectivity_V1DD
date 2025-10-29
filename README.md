@@ -1,3 +1,14 @@
-# SWDB 2025 PyNWB Capsule Template
+# SWDB 2025 Project to understand underlying functional-structural connectivity using the Allen Institute V1 Deep dive dataset:
 
-Python environment for using PyNWB to access datasets shared as part of SWDB 2025.
+<img align = right height="200" src="https://github.com/user-attachments/assets/d0ff038e-8d39-4cd7-8141-6b4260c6a968" />
+
+Members:
+
+- Arun Cherkkil 
+- Libby Zhang
+- Rodrigo Gonzalez Laiz
+
+Description: We study the relationship between function and structure in  the V1DD dataset by examining single cell and population level neural activity. We would like to examine how the neural correlations differ across conditions and what functional and structural motifs underlie their organization.
+
+Dataset Used: V1 Deep Dive (V1DD). Single cell activity measured across a cubic millimeter of the mouse visual cortex while the animal is headfixed and exposed to a variety of visual cues including gratings, low sparse noise , natural images and movies. 
+
