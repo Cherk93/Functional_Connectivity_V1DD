@@ -45,7 +45,7 @@ Principal component analysis showing the dimensionality of neural population act
 
 Eigenspectrum analysis revealing the effective dimensionality of the neural population.
 
-### Cell Class Comparisons
+### PCA analysis of cells from different classes
 ![Chorister PCA](./images/chorister_PCA.png)
 ![Soloist PCA](./images/soloists_PCA.png)
 
